@@ -14,6 +14,9 @@ module WINCONDITION
             elsif config_checker.uniq == ['O']
                 puts "Winner is O"
                 return false
+            elsif !self.board.include? "_"
+                puts "Scratch. No winner"
+                return false
             end
         end
     end
