@@ -1,5 +1,5 @@
 module WINCONDITION
-    def is_winner?
+    def keep_playing?
         winning_configs = [[2, 4, 6], [10, 12, 14], [18, 20, 22], # Rows
                         [2, 10, 18], [4, 12, 20], [6, 14, 22], # Columns
                         [2, 12, 22], [6, 12, 18]] # Diags
@@ -10,12 +10,12 @@ module WINCONDITION
             end
             if config_checker.uniq == ['X']
                 puts "Winner is X"
-                return true
-            elsif config_checker.uniq == ['O']
-                puts "winner is O"
-                return true
-            else
                 return false
+            elsif config_checker.uniq == ['O']
+                puts "Winner is O"
+                return false
+            else
+                return true
             end
         end
     end
@@ -30,6 +30,8 @@ class Board
         puts self.coords
     end
 
+    include WINCONDITION
+
     def mark(player, move_location)
         puts self.coords
         # Check if location is already in use
@@ -43,11 +45,13 @@ class Board
             puts self.board
         end
     end
-
-    include WINCONDITION
-
 end
 
+def play(board, player, name)
+    puts "#{name}, where will you move?"
+    move = gets.strip
+    board.mark(player, move.to_i)
+end
 
 def game
      puts "Welcome to Tic-Tac-Toe"
@@ -57,15 +61,15 @@ def game
      player_o = gets.strip
 
     game_board = Board.new()
+    playing = true
 
-    while !game_board.is_winner? do
-        puts "#{player_x}, where will you move?"
-        x_move = gets.strip
-        game_board.mark('X', x_move.to_i)
+    players = [['X', player_x], ['O', player_o]]
+    player_index = 0
 
-        puts "#{player_o}, where will you move?"
-        o_move = gets.strip
-        game_board.mark('O', o_move.to_i)
+    while playing do
+        play(game_board, players[player_index][0], players[player_index][1])
+        playing = game_board.keep_playing?
+        player_index = player_index == 1 ? 0 : 1
     end
 end
 
