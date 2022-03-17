@@ -1,12 +1,12 @@
 module WINCONDITION
     def keep_playing?
-        winning_configs = [[2, 4, 6], [10, 12, 14], [18, 20, 22], # Rows
-                        [2, 10, 18], [4, 12, 20], [6, 14, 22], # Columns
-                        [2, 12, 22], [6, 12, 18]] # Diags
+        winning_configs = [[2, 4, 6], [10, 12, 14], [18, 20, 22], #rows
+        [2, 10, 18], [4, 12, 20], [6, 14, 22], #columns
+        [2, 12, 22], [6, 12, 18]] #diags
         winning_configs.each do |config|
             config_checker = []
             config.each do |location|
-                config_checker << @board[location]
+                config_checker << self.board[location]
             end
             if config_checker.uniq == ['X']
                 puts "Winner is X"
@@ -14,8 +14,6 @@ module WINCONDITION
             elsif config_checker.uniq == ['O']
                 puts "Winner is O"
                 return false
-            else
-                return true
             end
         end
     end
